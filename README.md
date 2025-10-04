@@ -1,34 +1,40 @@
-# HTS-ViT: Hypergraph Tensor Supersystem for Vision Transformers
+# Tensorfield-HTS
 
-## Overview
-HTS-ViT (Hypergraph Tensor Supersystem - Vision Transformer) is an advanced AI framework designed to optimize Vision Transformers (ViTs) using hypergraph-tensor representations and dynamic, self-optimizing computation paths. This project aims to bridge the gap between static GPU pipelines and evolving tensor structures, enabling efficient, adaptive computation.
+Hypergraph Tensor Supersystems (HTS) + HTS‑ViT + CDMNs + Datatropisms.
 
-## Vision
-HTS-ViT is the software counterpart to GPU hardware acceleration, transforming AI processing units into adaptive, context-aware systems. This framework introduces hypergraph-tensor representation, self-optimizing data flow, and datatropisms as software-level optimization.
+**Why**: Move beyond vector‑centric pipelines. Embed tensors on hypergraphs/manifolds; let attention and flows respect geometry & topology. Teach linear algebra geometrically/computationally for real systems (AI/ML/LLMs).
 
-## Key Features
-- **Hypergraph-Tensor Representation**: Encodes multi-scale image features and hierarchical relational learning.
-- **Self-Optimizing Computation Paths**: Adapts computations dynamically based on input data.
-- **Datatropisms**: Software-level optimizations for feature refinement and alignment.
+## Key Concepts (short)
+- **Tensorfield**: dynamic tensor field \(\mathcal{T}\) on nodes/patches of a hypergraph \(H=(V,E)\) and (optionally) a manifold.
+- **Hypergraph Laplacian**: spatial/relational prior \(\Delta_H\) coupling patches.
+- **Datatropisms**: forces guiding evolution: gradient‑, entrop‑, correlat‑, anisotrop‑isms.
+- **Flows**: convolution ⇄ deconvolution; dissemination ⇄ insemination.
+- **Riemann Manifold Puncture**: bridge from hypersphere representations to reality via metric projections & Sobolev inner products.
+- **HTS‑ViT**: self‑attention operating inside the tensorfield, modulated by \(H\) and tropisms.
 
-## Why HTS-ViT?
-- **Adaptive Feature Scaling**: Dynamically scales feature importance, avoiding unnecessary computations.
-- **Hierarchical Representation Learning**: Connects related features dynamically, replacing rigid hierarchical layers.
-- **Efficient Computation**: Replaces brute-force FLOP scaling with efficient, adaptive computation.
+## Install
+```bash
+pip install -e .
+```
 
-## The Future of AI Computation
-HTS-ViT is not just another deep learning framework; it is the missing link in the GPU-software co-evolution. It paves the way for a future where software and hardware collaborate seamlessly to produce intelligence that is truly self-organizing, context-sensitive, and continuously evolving.
+## Quickstart
 
-## Getting Started
-1. Clone the repository
-   ```bash
-   git clone https://github.com/yourusername/HTS-ViT.git
-   ```
-2. Follow the setup instructions in the [Installation Guide](docs/INSTALL.md)
-3. Explore the [Examples](examples) to see HTS-ViT in action
+```python
+from tensorfield import Hypergraph, hts_block, datatropic_step
+import numpy as np
 
-## Contributing
-We welcome contributions from the community. Please read our [Contributing Guide](CONTRIBUTING.md) to get started.
+# Toy tokens on 5 patches
+T = np.random.randn(5, 32)
+H = Hypergraph(n=5, hyperedges=[[0,1,2],[2,3,4]])
 
-## License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+for _ in range(3):
+    T = hts_block(T, H)              # HTS attention + hypergraph prior
+    T = datatropic_step(T, H)        # gradient/entropy/correlation/anisotropy forces
+print(T.shape)  # (5, 32)
+```
+
+## Papers/Notes
+
+* See `docs/` for foundations and API.
+* `examples/` for runnable demos.
+```
